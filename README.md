@@ -1,11 +1,11 @@
-# 🏠 Analyse du Marché Immobilier au Sénégal
+#  Analyse du Marché Immobilier au Sénégal
 
 Projet de hackathon 2026 - **JeemaCoder**  
 **Durée :** 2 semaines (Mars 2026)
 
 ---
 
-## 📌 **Description du Projet**
+##  **Description du Projet**
 
 Ce projet a pour objectif de **scraper les données immobilières** des sites d'annonces sénégalais, d'**analyser les prix et tendances** du marché, et de **construire un dashboard interactif** présentant les KPIs clés.
 
@@ -13,19 +13,19 @@ Le site principal utilisé est **[Expat-Dakar.com](https://www.expat-dakar.com/i
 
 ---
 
-## 🎯 **Objectifs Atteints**
+##  **Objectifs Atteints**
 
 | Lot | Objectif | Statut |
 |-----|----------|--------|
-| **LOT 1** | Backend Django (API) | ⏳ En cours |
-| **LOT 2** | Frontend React | ⏳ En cours |
-| **LOT 3** | Scraping et nettoyage initial | ✅ **100%** |
-| **LOT 4** | Traitement valeurs manquantes | ✅ **100%** |
-| **LOT 5** | Analyses exploratoires (EDA) | ✅ **100%** |
-| **LOT 6** | Power BI et exports | ⏳ À venir  |
-| LOT 7 | Agent IA | ⏳ À venir |
-| LOT 8 | Déploiement | ⏳ À venir |
-| LOT 9 | Documentation finale | ⏳ À venir |
+| **LOT 1** | Backend Django (API) |  À venir |
+| **LOT 2** | Frontend React | À venir |
+| **LOT 3** | Scraping et nettoyage initial | **100%** |
+| **LOT 4** | Traitement valeurs manquantes | **100%** |
+| **LOT 5** | Analyses exploratoires (EDA) | **100%** |
+| **LOT 6** | Power BI et exports | **100%**  |
+| LOT 7 | Agent IA |  À venir |
+| LOT 8 | Déploiement |  À venir |
+| LOT 9 | Documentation finale |  À venir |
 
 ---
 
@@ -44,7 +44,7 @@ Le site principal utilisé est **[Expat-Dakar.com](https://www.expat-dakar.com/i
 
 ---
 
-## 📊 **Données Collectées**
+##  **Données Collectées**
 
 ### **Volume**
 - **4 313 annonces** immobilières après nettoyage
