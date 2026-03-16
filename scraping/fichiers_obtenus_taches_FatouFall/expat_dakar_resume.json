@@ -1,0 +1,70 @@
+{
+  "metadata": {
+    "source": "expat-dakar.com/immobilier",
+    "date_extraction": "2026-03-10 23:17:44",
+    "total_annonces": 4400
+  },
+  "prix_fcfa": {
+    "moyenne": 77815431.97,
+    "mediane": 1050000.0,
+    "minimum": 1.0,
+    "maximum": 23600000000.0,
+    "valides": 4313
+  },
+  "surface_m2": {
+    "moyenne": 530.4,
+    "mediane": 240.0,
+    "minimum": 5.0,
+    "maximum": 25000.0,
+    "valides": 1420
+  },
+  "categories": {
+    "Appartements à louer": 1517,
+    "Appartements meublés": 777,
+    "Terrains à vendre": 555,
+    "Maisons à vendre": 420,
+    "Maisons à louer": 375,
+    "Appartements à vendre": 360,
+    "Propriétés commerciales à louer": 237,
+    "Chambres à louer": 109,
+    "Propriétés commerciales à vendre": 50
+  },
+  "top_quartiers": {
+    "Almadies": 685,
+    "Mermoz": 311,
+    "Point E": 222,
+    "Mamelles": 206,
+    "Plateau": 148,
+    "Vdn": 146,
+    "Saly": 136,
+    "Yoff": 129,
+    "Ngor": 121,
+    "Fann": 115,
+    "Liberté 6": 103,
+    "Ouakam": 86,
+    "Dakar": 75,
+    "Maristes": 71,
+    "Mbao": 68
+  },
+  "annonces_par_annee": {
+    "2021": 59,
+    "2022": 33,
+    "2023": 92,
+    "2024": 306,
+    "2025": 2306,
+    "2026": 1601
+  },
+  "tranches_prix": {
+    "Élevé (600k–1.5M)": 837,
+    "Très élevé (> 1.5M)": 648,
+    "Très bas (< 100k)": 639,
+    "Élevé (100M–500M)": 581,
+    "Moyen (300k–600k)": 543,
+    "Bas (100k–300k)": 304,
+    "Moyen (30M–100M)": 289,
+    "Bas (5M–30M)": 191,
+    "Très bas (< 5M)": 155,
+    "Très élevé (> 500M)": 126,
+    "Non renseigné": 87
+  }
+}
