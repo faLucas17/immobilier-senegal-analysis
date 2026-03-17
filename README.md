@@ -49,7 +49,7 @@ Le site principal utilisé est **[Expat-Dakar.com](https://www.expat-dakar.com/i
 ### **Volume**
 - **4 313 annonces** immobilières après nettoyage
 - **55 quartiers** distincts identifiés
-- **9 catégories** de biens
+- **5 catégories** de biens
 - Période couverte : **2021 - 2026**
 
 ### **Colonnes disponibles**
