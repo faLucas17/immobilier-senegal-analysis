@@ -224,11 +224,11 @@ const HomePage = () => {
           Fonctionnalités
         </Typography>
         <Typography
-          variant="h6"
+          variant="h5"
           align="center"
           sx={{ color: colors.textLight, mb: 4, maxWidth: '700px', mx: 'auto', fontSize: '1rem' }}
         >
-          Explorez notre dashboard interactif pour découvrir toutes les analyses
+          Explorez notre dashboard illustratif pour découvrir toutes les analyses
         </Typography>
 
         {/* Première ligne : 2 fonctionnalités */}

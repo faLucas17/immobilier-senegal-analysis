@@ -1,13 +1,13 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button, Box, Container } from '@mui/material';  // Retirez Avatar
-import { Home, Dashboard, Info } from '@mui/icons-material';
+import { AppBar, Toolbar, Typography, Button, Box, Container } from '@mui/material';
+import { Home, Dashboard, Info, List } from '@mui/icons-material'; 
 import { colors, shadows, transitions, borderRadius } from '../utils/theme';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
     <AppBar 
-      position="static" 
+      position="fixed" 
       sx={{ 
         background: colors.gradient.primary,
         boxShadow: shadows.large,
@@ -31,16 +31,15 @@ const Navbar = () => {
               transition: transitions.fast,
             }}
           >
-            {/* */}
             <Box
               component="img"
-              src="/images/logo.png"  // Chemin vers votre logo
+              src="/images/logo.png"
               alt="Logo"
               sx={{
                 width: 115,
                 height: 70,
                 mr: 1,
-                borderRadius: 1,  // Optionnel: si vous voulez des bords arrondis
+                borderRadius: 1,
                 objectFit: 'contain',
               }}
             />
@@ -68,7 +67,7 @@ const Navbar = () => {
             </Box>
           </Box>
 
-          {/* Menu de navigation (inchangé) */}
+          {/* Menu de navigation avec nouvelle section Annonces */}
           <Box sx={{ display: 'flex', gap: 2 }}>
             <Button
               component={Link}
@@ -104,6 +103,26 @@ const Navbar = () => {
             >
               Dashboard
             </Button>
+            
+            {/* NOUVEAU BOUTON ANNONCES */}
+            <Button
+              component={Link}
+              to="/annonces"
+              sx={{
+                color: 'white',
+                '&:hover': {
+                  backgroundColor: 'rgba(255,255,255,0.15)',
+                  transform: 'translateY(-2px)',
+                },
+                transition: transitions.fast,
+                borderRadius: borderRadius.pill,
+                px: 2,
+              }}
+              startIcon={<List />}
+            >
+              Annonces
+            </Button>
+            
             <Button
               component={Link}
               to="/about"
