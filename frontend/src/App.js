@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import HomePage from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import About from './pages/About';
+import ChatBot from './components/ChatBot';  // ← IMPORT DU CHATBOT
 import { colors } from './utils/theme';
 
 const theme = createTheme({
@@ -43,6 +44,9 @@ function App() {
             <Route path="/about" element={<About />} />
           </Routes>
         </Box>
+        
+        {/* 🤖 BOT FLOTTANT — visible sur toutes les pages */}
+        <ChatBot />
       </Router>
     </ThemeProvider>
   );

@@ -279,3 +279,158 @@ def filtres_disponibles(request):
         'prix_min': int(prix_range['min']),
         'prix_max': int(prix_range['max']),
     })
+    
+# ============================================
+# AGENT IA - ASSISTANT CONVERSATIONNEL
+# ============================================
+
+from django.views.decorators.csrf import csrf_exempt
+import json
+import re
+
+@csrf_exempt
+@api_view(['POST'])
+def chat_api(request):
+    """
+    POST /api/chat/
+    Body: {"question": "votre question ici"}
+    Retourne une réponse intelligente basée sur les données
+    """
+    try:
+        data = json.loads(request.body)
+        question = data.get('question', '').lower().strip()
+        
+        if not question:
+            return Response({'answer': 'Veuillez poser une question.'}, status=400)
+        
+        # 1. Questions sur le prix moyen
+        if 'prix moyen' in question or 'prix_moyen' in question:
+            # Par ville
+            if 'ville' in question or any(ville in question for ville in ['dakar', 'thies', 'saint-louis']):
+                # Extraire le nom de la ville
+                for ville in Ville.objects.all():
+                    if ville.nom.lower() in question:
+                        prix = Annonce.objects.filter(ville=ville).aggregate(Avg('prix_fcfa'))['prix_fcfa__avg']
+                        if prix:
+                            answer = f"Le prix moyen à {ville.nom} est de **{prix:,.0f} FCFA**"
+                        else:
+                            answer = f"Je n'ai pas trouvé d'annonces pour {ville.nom}"
+                        return Response({'answer': answer})
+            
+            # Par quartier
+            elif 'quartier' in question:
+                for quartier in Quartier.objects.all():
+                    if quartier.nom.lower() in question:
+                        prix = Annonce.objects.filter(quartier=quartier).aggregate(Avg('prix_fcfa'))['prix_fcfa__avg']
+                        if prix:
+                            answer = f"Le prix moyen dans le quartier {quartier.nom} ({quartier.ville.nom}) est de **{prix:,.0f} FCFA**"
+                        else:
+                            answer = f"Je n'ai pas trouvé d'annonces pour le quartier {quartier.nom}"
+                        return Response({'answer': answer})
+            
+            # Prix moyen global
+            else:
+                prix_global = Annonce.objects.aggregate(Avg('prix_fcfa'))['prix_fcfa__avg']
+                answer = f"Le prix moyen global est de **{prix_global:,.0f} FCFA** sur {Annonce.objects.count()} annonces"
+                return Response({'answer': answer})
+        
+        # 2. Quartier le plus cher
+        elif 'quartier le plus cher' in question or 'quartiers chers' in question:
+            top_quartier = Annonce.objects.values('quartier__nom', 'ville__nom').annotate(
+                prix_moyen=Avg('prix_fcfa')
+            ).filter(quartier__nom__isnull=False).order_by('-prix_moyen').first()
+            
+            if top_quartier:
+                answer = f"Le quartier le plus cher est **{top_quartier['quartier__nom']}** ({top_quartier['ville__nom']}) avec un prix moyen de **{top_quartier['prix_moyen']:,.0f} FCFA**"
+            else:
+                answer = "Je n'ai pas trouvé d'information sur les quartiers"
+            return Response({'answer': answer})
+        
+        # 3. Quartier le plus accessible
+        elif 'quartier le plus accessible' in question or 'quartier moins cher' in question:
+            bottom_quartier = Annonce.objects.values('quartier__nom', 'ville__nom').annotate(
+                prix_moyen=Avg('prix_fcfa'),
+                nb_annonces=Count('id')
+            ).filter(quartier__nom__isnull=False, nb_annonces__gte=3).order_by('prix_moyen').first()
+            
+            if bottom_quartier:
+                answer = f"Le quartier le plus accessible est **{bottom_quartier['quartier__nom']}** ({bottom_quartier['ville__nom']}) avec un prix moyen de **{bottom_quartier['prix_moyen']:,.0f} FCFA**"
+            else:
+                answer = "Je n'ai pas trouvé d'information sur les quartiers accessibles"
+            return Response({'answer': answer})
+        
+        # 4. Nombre d'annonces
+        elif 'nombre d\'annonces' in question or 'combien d\'annonces' in question or 'total annonces' in question:
+            total = Annonce.objects.count()
+            answer = f"Nous avons **{total} annonces** dans notre base de données"
+            return Response({'answer': answer})
+        
+        # 5. Évolution des prix
+        elif 'évolution' in question or 'evolution' in question:
+            evolution = Annonce.objects.values('annee_pub').annotate(
+                prix_moyen=Avg('prix_fcfa')
+            ).order_by('annee_pub').filter(annee_pub__isnull=False)
+            
+            if evolution:
+                annees = [f"{e['annee_pub']}: {e['prix_moyen']:,.0f} FCFA" for e in evolution]
+                answer = "Évolution des prix par année :\n" + "\n".join(annees)
+            else:
+                answer = "Données d'évolution non disponibles"
+            return Response({'answer': answer})
+        
+        # 6. Surface moyenne
+        elif 'surface moyenne' in question:
+            surface_moyenne = Annonce.objects.filter(surface_m2__isnull=False).aggregate(Avg('surface_m2'))['surface_m2__avg']
+            if surface_moyenne:
+                answer = f"La surface moyenne est de **{surface_moyenne:.0f} m²**"
+            else:
+                answer = "Données de surface non disponibles"
+            return Response({'answer': answer})
+        
+        # 7. Nombre de chambres moyen
+        elif 'nombre de chambres' in question or 'chambres moyen' in question:
+            chambres_moyennes = Annonce.objects.filter(nb_chambres__isnull=False).aggregate(Avg('nb_chambres'))['nb_chambres__avg']
+            if chambres_moyennes:
+                answer = f"Le nombre moyen de chambres est de **{chambres_moyennes:.1f}**"
+            else:
+                answer = "Données de chambres non disponibles"
+            return Response({'answer': answer})
+        
+        # 8. Prix au m²
+        elif 'prix au m²' in question or 'prix au m2' in question:
+            prix_m2 = Annonce.objects.filter(prix_m2_fcfa__isnull=False).aggregate(Avg('prix_m2_fcfa'))['prix_m2_fcfa__avg']
+            if prix_m2:
+                answer = f"Le prix moyen au m² est de **{prix_m2:,.0f} FCFA/m²**"
+            else:
+                answer = "Données de prix au m² non disponibles"
+            return Response({'answer': answer})
+        
+        # 9. Par type de bien
+        elif 'type de bien' in question or 'appartement' in question or 'villa' in question or 'terrain' in question:
+            types_reponse = []
+            for type_bien in TypeBien.objects.all():
+                prix = Annonce.objects.filter(type_bien=type_bien).aggregate(Avg('prix_fcfa'))['prix_fcfa__avg']
+                if prix:
+                    types_reponse.append(f"{type_bien.get_nom_display()}: {prix:,.0f} FCFA")
+            
+            if types_reponse:
+                answer = "Prix moyen par type de bien :\n" + "\n".join(types_reponse)
+            else:
+                answer = "Données par type non disponibles"
+            return Response({'answer': answer})
+        
+        # 10. Réponse par défaut avec suggestions
+        else:
+            suggestions = [
+                "• Quel est le prix moyen ?",
+                "• Quel est le quartier le plus cher ?",
+                "• Combien d'annonces avez-vous ?",
+                "• Prix moyen à Dakar",
+                "• Quelle est la surface moyenne ?",
+                "• Évolution des prix"
+            ]
+            answer = "Je n'ai pas compris votre question. Voici ce que je peux vous dire :\n" + "\n".join(suggestions)
+            return Response({'answer': answer})
+    
+    except Exception as e:
+        return Response({'answer': f"Une erreur est survenue: {str(e)}"}, status=500)

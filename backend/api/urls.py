@@ -15,7 +15,7 @@ urlpatterns = [
     path('evolution-prix/', views.evolution_prix, name='evolution-prix'),
     path('prix/m2/', views.prix_au_m2, name='prix-m2'),
     path('statistiques/', views.statistiques_globales, name='statistiques'),
-    
+    path('chat/', views.chat_api, name='chat'),
     # Filtres
     path('filtres/', views.filtres_disponibles, name='filtres'),
 ]
