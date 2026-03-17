@@ -17,15 +17,15 @@ Le site principal utilisé est **[Expat-Dakar.com](https://www.expat-dakar.com/i
 
 | Lot | Objectif | Statut |
 |-----|----------|--------|
-| **LOT 1** | Backend Django (API) |  À venir |
-| **LOT 2** | Frontend React | À venir |
+| **LOT 1** | Backend Django (API) | **100%** |
+| **LOT 2** | Frontend React | **100%** |
 | **LOT 3** | Scraping et nettoyage initial | **100%** |
 | **LOT 4** | Traitement valeurs manquantes | **100%** |
 | **LOT 5** | Analyses exploratoires (EDA) | **100%** |
 | **LOT 6** | Power BI et exports | **100%**  |
 | LOT 7 | Agent IA |  À venir |
-| LOT 8 | Déploiement |  À venir |
-| LOT 9 | Documentation finale |  À venir |
+| LOT 8 | Déploiement | **100%** |
+| LOT 9 | Documentation finale | **100%** |
 
 ---
 
