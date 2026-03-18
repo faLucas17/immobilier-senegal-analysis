@@ -3,14 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
-  Container, Grid, Typography, Box, Paper, Card, CardContent,
+  Container, Grid, Typography, Box, Paper,
   CardMedia, Chip, Stack, Divider, Button, CircularProgress, Alert
 } from '@mui/material';
 import {
   LocationOn, Home, SquareFoot, CalendarToday,
   ArrowBack, Bed, Bathtub, MeetingRoom, OpenInNew
 } from '@mui/icons-material';
-import { colors, shadows, borderRadius } from '../utils/theme';
+import { colors, borderRadius } from '../utils/theme';
 import { getAnnonces } from '../services/api';
 
 const formatPrix = (prix) => {

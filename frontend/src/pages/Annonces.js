@@ -4,13 +4,13 @@ import React, { useState, useEffect } from 'react';
 import {
   Container, Grid, Typography, Box, Paper, Card, CardContent,
   CardMedia, TextField, MenuItem, Select, FormControl, InputLabel,
-  Pagination, CircularProgress, Alert, Chip, Stack, IconButton,
+  Pagination, CircularProgress, Alert, Chip, Stack,
   Button, FormHelperText
 } from '@mui/material';
-import { Search, LocationOn, Home, SquareFoot, CalendarToday } from '@mui/icons-material';  // ← Retiré AttachMoney
+import { Search, LocationOn, Home, SquareFoot} from '@mui/icons-material';  // ← Retiré AttachMoney
 import { colors, shadows, borderRadius } from '../utils/theme';
 import { getAnnonces, getFiltres } from '../services/api';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const formatPrix = (prix) => {
   if (!prix) return 'N/A';
@@ -74,13 +74,14 @@ const AnnoncesPage = () => {
     }
   };
 
-  useEffect(() => {
-    fetchFiltres();
-  }, []);
+ useEffect(() => {
+  fetchFiltres();
+}, []);
 
-  useEffect(() => {
-    fetchAnnonces();
-  }, [page]);
+// eslint-disable-next-line react-hooks/exhaustive-deps
+useEffect(() => {
+  fetchAnnonces();
+}, [page]);
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }));

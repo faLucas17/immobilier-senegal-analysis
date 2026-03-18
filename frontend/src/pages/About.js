@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Typography, Paper, Grid, Box, Avatar, Divider } from '@mui/material';
 import { colors } from '../utils/theme';
 import { 
-  Code, Storage, BarChart, Dashboard, 
+  Code, Storage, BarChart,
   Home, LocationOn, TrendingUp, SmartToy 
 } from '@mui/icons-material';
 

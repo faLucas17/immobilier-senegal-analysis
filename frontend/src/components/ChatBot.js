@@ -8,7 +8,7 @@ import {
 import { 
   Send, SmartToy, Person, Chat as ChatIcon, Close 
 } from '@mui/icons-material';
-import { colors, borderRadius, shadows } from '../utils/theme';
+import { colors, shadows } from '../utils/theme';
 import axios from 'axios';
 
 const ChatBot = () => {
