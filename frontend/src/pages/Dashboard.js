@@ -18,7 +18,6 @@ import {
   getEvolutionPrix,
 } from '../services/api';
 import { colors, shadows, borderRadius, transitions } from '../utils/theme';
-import { Paid } from '@mui/icons-material';
 
 // ─── Mapping ville → région ──────────────────────────────────────────────────
 const VILLE_TO_REGION = {
@@ -362,7 +361,11 @@ const Dashboard = () => {
   <KPICard 
     title="Prix moyen" 
     value={stats.prix_moyen_global} 
-    icon={<Paid sx={{ fontSize: 44 }} />} 
+    icon={
+      <Typography sx={{ fontSize: 28, fontWeight: 'bold' }}>
+        F CFA
+      </Typography>
+    } 
     color={colors.primary} 
     subValue="Global" 
   />
