@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {
   Container, Grid, Typography, Box, CircularProgress, Alert, Paper,
-  Divider, Chip, useMediaQuery, useTheme as useMuiTheme
-} from '@mui/material';
+  Divider, Chip
+} from '@mui/material';  // ← useMediaQuery et useTheme retirés
 import {
   AttachMoney, Home, TrendingUp, SquareFoot, LocationCity,
   CalendarToday, Star, EmojiEvents, Apartment
@@ -271,9 +271,6 @@ const Dashboard = () => {
   const [quartiersChers, setQuartiersChers] = useState([]);
   const [evolution, setEvolution] = useState([]);
 
-  const muiTheme = useMuiTheme();
-  const isMobile = useMediaQuery(muiTheme.breakpoints.down('sm'));
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -320,18 +317,11 @@ const Dashboard = () => {
     return prix + ' FCFA';
   };
 
-  const paperStyle = {
-    p: 3,
-    borderRadius: borderRadius.large,
-    boxShadow: shadows.medium,
-    transition: transitions.normal,
-    height: '100%',
-    '&:hover': { boxShadow: shadows.large },
-  };
+
 
   return (
     <Box sx={{ minHeight: '100vh', background: `linear-gradient(135deg, ${colors.background} 0%, #ffffff 100%)`, py: 4 }}>
-      <Container maxWidth="xl">
+      <Container maxWidth={false} sx={{ px: { xs: 2, md: 4 } }}>
 
         {/* ── En-tête ── */}
         <Paper elevation={0} sx={{
@@ -382,101 +372,127 @@ const Dashboard = () => {
           </Grid>
         </Grid>
 
-        {/* ── LIGNE 1 : Prix par ville | Évolution des prix ── */}
-        <Grid container spacing={3} sx={{ mb: 3 }}>
-          <Grid item xs={12} md={6}>
-            <Paper elevation={3} sx={paperStyle}>
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, color: colors.primary, display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                <LocationCity sx={{ color: colors.primary }} /> Prix moyen par ville
-              </Typography>
-              <Divider sx={{ mb: 3 }} />
-              <Box sx={{ height: 340 }}>
-                <CustomBarChart data={prixVille} title="" xKey="ville" yKey="prix_moyen" color={colors.primary} />
-              </Box>
-            </Paper>
-          </Grid>
+{/* ── LIGNE 1 : Prix par ville (pleine largeur, sans cadre) ── */}
+<Grid container spacing={3} sx={{ mb: 3 }}>
+  <Grid item xs={12}>
+    <Box sx={{ width: '100%' }}>
+      <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, color: colors.primary, display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+        <LocationCity sx={{ color: colors.primary }} /> Prix moyen par ville (FCFA)
+      </Typography>
+      <Divider sx={{ mb: 2 }} />
+      <Box sx={{ width: '100%', height: 500 }}>
+        <CustomBarChart 
+          data={prixVille} 
+          title="" 
+          xKey="ville" 
+          yKey="prix_moyen" 
+          color={colors.primary} 
+        />
+      </Box>
+    </Box>
+  </Grid>
+</Grid>
 
-          <Grid item xs={12} md={6}>
-            <Paper elevation={3} sx={paperStyle}>
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, color: colors.secondary, display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                <TrendingUp sx={{ color: colors.secondary }} /> Évolution mensuelle des prix
-              </Typography>
-              <Divider sx={{ mb: 3 }} />
-              <Box sx={{ height: 340 }}>
-                <CustomLineChart data={evolution} title="" xKey="date" yKey="prix_moyen" color={colors.secondary} />
-              </Box>
-            </Paper>
-          </Grid>
-        </Grid>
+{/* ── LIGNE 2 : Évolution des prix (pleine largeur, sans cadre) ── */}
+<Grid container spacing={3} sx={{ mb: 3 }}>
+  <Grid item xs={12}>
+    <Box sx={{ width: '100%' }}>
+      <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, color: colors.secondary, display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+        <TrendingUp sx={{ color: colors.secondary }} /> Évolution mensuelle des prix (FCFA)
+      </Typography>
+      <Divider sx={{ mb: 2 }} />
+      <Box sx={{ width: '100%', height: 450 }}>
+        <CustomLineChart 
+          data={evolution} 
+          title="" 
+          xKey="date" 
+          yKey="prix_moyen" 
+          color={colors.secondary} 
+        />
+      </Box>
+    </Box>
+  </Grid>
+</Grid>
 
-        {/* ── LIGNE 2 : Top quartiers | Quartier le plus cher ── */}
-        <Grid container spacing={3} sx={{ mb: 3 }}>
-          <Grid item xs={12} md={7}>
-            <Paper elevation={3} sx={paperStyle}>
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, color: colors.accent, display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                <EmojiEvents sx={{ color: colors.accent }} /> Top quartiers les plus chers
-              </Typography>
-              <Divider sx={{ mb: 3 }} />
-              <TopQuartiersTable data={quartiersChers} title="" />
-            </Paper>
-          </Grid>
+       {/* ── LIGNE 3 : Top quartiers | Quartier le plus cher ── */}
+<Box sx={{ display: 'flex', gap: 3, mb: 12, alignItems: 'stretch', width: '100%' }}>
+  
+  {/* Tableau — 65% */}
+  <Box sx={{ flex: '0 0 65%', width: '65%' }}>
+    <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, color: colors.accent, display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+      <EmojiEvents sx={{ color: colors.accent }} /> Top quartiers les plus chers
+    </Typography>
+    <Divider sx={{ mb: 3 }} />
+    <TopQuartiersTable data={quartiersChers} title="" />
+  </Box>
 
-          <Grid item xs={12} md={5}>
-            <Paper elevation={3} sx={{
-              ...paperStyle,
-              background: colors.gradient.secondary,
-              position: 'relative', overflow: 'hidden',
-              '&:hover': { transform: 'translateY(-4px)', boxShadow: shadows.large },
-              '&::before': {
-                content: '""', position: 'absolute', top: 0, right: 0,
-                width: '150px', height: '150px',
-                background: `radial-gradient(circle, ${colors.accent}20 0%, transparent 70%)`,
-                borderRadius: '50%',
-              },
-            }}>
-              <Box sx={{ position: 'relative', zIndex: 1 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-                  <Star sx={{ fontSize: 40, color: colors.accent }} />
-                  <Typography variant="h5" sx={{ color: 'white', fontWeight: 600 }}>Quartier le plus cher</Typography>
-                </Box>
-                {stats.quartier_plus_cher && (
-                  <>
-                    <Typography variant="h2" sx={{ color: colors.accent, fontWeight: 800, fontSize: { xs: '2.5rem', md: '3.5rem' }, mb: 2, textShadow: '2px 2px 4px rgba(0,0,0,0.2)' }}>
-                      {stats.quartier_plus_cher.nom}
-                    </Typography>
-                    <Typography variant="h5" sx={{ color: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
-                      <LocationCity fontSize="small" /> {stats.quartier_plus_cher.ville}
-                    </Typography>
-                    <Box sx={{ p: 3, backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: borderRadius.medium, backdropFilter: 'blur(10px)' }}>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1 }}>Prix moyen</Typography>
-                      <Typography variant="h3" sx={{ color: 'white', fontWeight: 700, fontSize: { xs: '1.8rem', md: '2.2rem' } }}>
-                        {formatPrix(stats.quartier_plus_cher.prix_moyen)}
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mt: 1 }}>FCFA</Typography>
-                    </Box>
-                  </>
-                )}
-              </Box>
-            </Paper>
-          </Grid>
-        </Grid>
+  {/* Quartier le plus cher — 35% */}
+  <Box sx={{
+    flex: '0 0 35%',
+    width: '35%',
+    background: colors.gradient.secondary,
+    borderRadius: borderRadius.large,
+    p: 3,
+    position: 'relative',
+    overflow: 'hidden',
+    transition: transitions.normal,
+    '&:hover': { transform: 'translateY(-4px)' },
+    '&::before': {
+      content: '""', position: 'absolute', top: 0, right: 0,
+      width: '150px', height: '150px',
+      background: `radial-gradient(circle, ${colors.accent}20 0%, transparent 70%)`,
+      borderRadius: '50%',
+    },
+  }}>
+    <Box sx={{ position: 'relative', zIndex: 1 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+        <Star sx={{ fontSize: 40, color: colors.accent }} />
+        <Typography variant="h5" sx={{ color: 'white', fontWeight: 600 }}>Quartier le plus cher</Typography>
+      </Box>
+      {stats.quartier_plus_cher && (
+        <>
+          <Typography variant="h2" sx={{ color: colors.accent, fontWeight: 800, fontSize: { xs: '2.5rem', md: '3.5rem' }, mb: 2, textShadow: '2px 2px 4px rgba(0,0,0,0.2)' }}>
+            {stats.quartier_plus_cher.nom}
+          </Typography>
+          <Typography variant="h5" sx={{ color: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
+            <LocationCity fontSize="small" /> {stats.quartier_plus_cher.ville}
+          </Typography>
+          <Box sx={{ p: 3, backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: borderRadius.medium, backdropFilter: 'blur(10px)' }}>
+            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1 }}>Prix moyen</Typography>
+            <Typography variant="h3" sx={{ color: 'white', fontWeight: 700, fontSize: { xs: '1.8rem', md: '2.2rem' } }}>
+              {formatPrix(stats.quartier_plus_cher.prix_moyen)}
+            </Typography>
+            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mt: 1 }}>FCFA</Typography>
+          </Box>
+        </>
+      )}
+    </Box>
+  </Box>
 
-        {/* ── LIGNE 3 : Carte Sénégal pleine largeur ── */}
-        <Grid container sx={{ mb: 3 }}>
-          <Grid item xs={12}>
-            <Paper elevation={3} sx={{ p: 3, borderRadius: borderRadius.large, boxShadow: shadows.medium, '&:hover': { boxShadow: shadows.large }, transition: transitions.normal }}>
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, color: colors.primary, display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                <LocationCity sx={{ color: colors.primary }} />
-                Carte des régions les plus demandées — Sénégal
-              </Typography>
-              <Typography variant="body2" sx={{ color: colors.textLight, mb: 2 }}>
-                Survolez une région pour voir le détail. La couleur reflète l'intensité de la demande immobilière.
-              </Typography>
-              <Divider sx={{ mb: 3 }} />
-              <CarteSenegal quartiersChers={quartiersChers} />
-            </Paper>
-          </Grid>
-        </Grid>
+</Box>
+
+        {/* ── Carte Sénégal centrée ── */}
+<Box sx={{ mb: 3, display: 'flex', justifyContent: 'center' }}>
+  <Box sx={{ width: '100%', maxWidth: 900 }}>
+    <Paper elevation={3} sx={{ 
+      p: 3, 
+      borderRadius: borderRadius.large, 
+      boxShadow: shadows.medium, 
+      '&:hover': { boxShadow: shadows.large }, 
+      transition: transitions.normal 
+    }}>
+      <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, color: colors.primary, display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+        <LocationCity sx={{ color: colors.primary }} />
+        Carte des régions les plus demandées — Sénégal
+      </Typography>
+      <Typography variant="body2" sx={{ color: colors.textLight, mb: 2 }}>
+        Survolez une région pour voir le détail. La couleur reflète l'intensité de la demande immobilière.
+      </Typography>
+      <Divider sx={{ mb: 3 }} />
+      <CarteSenegal quartiersChers={quartiersChers} />
+    </Paper>
+  </Box>
+</Box>
 
         {/* ── Footer ── */}
         <Box sx={{ mt: 2, textAlign: 'center' }}>
@@ -490,4 +506,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard; 
+export default Dashboard;
