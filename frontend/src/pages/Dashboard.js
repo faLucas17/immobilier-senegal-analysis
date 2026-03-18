@@ -424,7 +424,7 @@ const Dashboard = () => {
   </Grid>
 </Grid>
 
-       {/* ── LIGNE 3 : Top quartiers | Quartier le plus cher ── */}
+{/* ── LIGNE 3 : Top quartiers | Quartier le plus cher ── */}
 <Box sx={{ mb: 12, width: '100%' }}>
   
   {/* Version Mobile : Stack vertical */}
@@ -438,7 +438,7 @@ const Dashboard = () => {
       <TopQuartiersTable data={quartiersChers} title="" />
     </Box>
 
-    {/* Ensuite la carte */}
+    {/* Carte pour mobile */}
     <Box sx={{
       width: '100%',
       background: colors.gradient.secondary,
@@ -455,7 +455,6 @@ const Dashboard = () => {
         borderRadius: '50%',
       },
     }}>
-      {/* Contenu de la carte (inchangé) */}
       <Box sx={{ position: 'relative', zIndex: 1 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
           <Star sx={{ fontSize: 40, color: colors.accent }} />
@@ -482,8 +481,9 @@ const Dashboard = () => {
     </Box>
   </Box>
 
-  {/* Version Desktop : côte à côte (inchangé) */}
+  {/* Version Desktop : côte à côte (AVEC LE CONTENU DE LA CARTE) */}
   <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 3, alignItems: 'stretch', width: '100%' }}>
+    {/* Tableau à gauche */}
     <Box sx={{ flex: '0 0 65%', width: '65%' }}>
       <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, color: colors.accent, display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
         <EmojiEvents sx={{ color: colors.accent }} /> Top quartiers les plus chers
@@ -491,11 +491,50 @@ const Dashboard = () => {
       <Divider sx={{ mb: 3 }} />
       <TopQuartiersTable data={quartiersChers} title="" />
     </Box>
-    <Box sx={{ flex: '0 0 35%', width: '35%', background: colors.gradient.secondary, borderRadius: borderRadius.large, p: 3, position: 'relative', overflow: 'hidden', transition: transitions.normal, '&:hover': { transform: 'translateY(-4px)' }, '&::before': { content: '""', position: 'absolute', top: 0, right: 0, width: '150px', height: '150px', background: `radial-gradient(circle, ${colors.accent}20 0%, transparent 70%)`, borderRadius: '50%' } }}>
-      {/* ... contenu de la carte (identique) ... */}
+
+    {/* Carte à droite (AVEC LE CONTENU) */}
+    <Box sx={{
+      flex: '0 0 35%',
+      width: '35%',
+      background: colors.gradient.secondary,
+      borderRadius: borderRadius.large,
+      p: 3,
+      position: 'relative',
+      overflow: 'hidden',
+      transition: transitions.normal,
+      '&:hover': { transform: 'translateY(-4px)' },
+      '&::before': {
+        content: '""', position: 'absolute', top: 0, right: 0,
+        width: '150px', height: '150px',
+        background: `radial-gradient(circle, ${colors.accent}20 0%, transparent 70%)`,
+        borderRadius: '50%',
+      },
+    }}>
+      <Box sx={{ position: 'relative', zIndex: 1 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+          <Star sx={{ fontSize: 40, color: colors.accent }} />
+          <Typography variant="h5" sx={{ color: 'white', fontWeight: 600 }}>Quartier le plus cher</Typography>
+        </Box>
+        {stats.quartier_plus_cher && (
+          <>
+            <Typography variant="h2" sx={{ color: colors.accent, fontWeight: 800, fontSize: { xs: '2rem', md: '3.5rem' }, mb: 2, textShadow: '2px 2px 4px rgba(0,0,0,0.2)' }}>
+              {stats.quartier_plus_cher.nom}
+            </Typography>
+            <Typography variant="h5" sx={{ color: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
+              <LocationCity fontSize="small" /> {stats.quartier_plus_cher.ville}
+            </Typography>
+            <Box sx={{ p: 3, backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: borderRadius.medium, backdropFilter: 'blur(10px)' }}>
+              <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1 }}>Prix moyen</Typography>
+              <Typography variant="h3" sx={{ color: 'white', fontWeight: 700, fontSize: { xs: '1.5rem', md: '2.2rem' } }}>
+                {formatPrix(stats.quartier_plus_cher.prix_moyen)}
+              </Typography>
+              <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mt: 1 }}>FCFA</Typography>
+            </Box>
+          </>
+        )}
+      </Box>
     </Box>
   </Box>
-
 </Box>
 
         {/* ── Carte Sénégal centrée ── */}
