@@ -18,6 +18,7 @@ import {
   getEvolutionPrix,
 } from '../services/api';
 import { colors, shadows, borderRadius, transitions } from '../utils/theme';
+import { Paid } from '@mui/icons-material';
 
 // ─── Mapping ville → région ──────────────────────────────────────────────────
 const VILLE_TO_REGION = {
@@ -358,8 +359,14 @@ const Dashboard = () => {
         {/* ── KPIs — 4 cartes occupant toute la ligne ── */}
         <Grid container spacing={5} sx={{ mb: 4 }}>
           <Grid item xs={12} sm={6} md={3}>
-            <KPICard title="Prix moyen" value={stats.prix_moyen_global} icon={<AttachMoney sx={{ fontSize: 44 }} />} color={colors.primary} subValue="Global" />
-          </Grid>
+  <KPICard 
+    title="Prix moyen" 
+    value={stats.prix_moyen_global} 
+    icon={<Paid sx={{ fontSize: 44 }} />} 
+    color={colors.primary} 
+    subValue="Global" 
+  />
+</Grid>
           <Grid item xs={12} sm={6} md={3}>
             <KPICard title="Prix maximum" value={stats.prix_max} icon={<TrendingUp sx={{ fontSize: 44 }} />} color={colors.accent}
               subValue={stats.prix_moyen_global ? `+${((stats.prix_max / stats.prix_moyen_global - 1) * 100).toFixed(0)}% vs moyenne` : ''} />
